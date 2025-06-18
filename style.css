@@ -1,5 +1,5 @@
 body {
-  background: #f0e7d5 url('https://web.archive.org/web/20050401000000im_/http://www.geocities.jp/otaku_bg.gif');
+  background: repeating-linear-gradient(135deg, #b3e6ff 0 20px, #e0f7fa 20px 40px, #b3e6ff 40px 60px, #e0f7fa 60px 80px);
   color: #222;
   font-family: 'MS PGothic', 'Osaka', 'Arial', sans-serif;
   margin: 0;
@@ -188,4 +188,42 @@ img.youtube-thumb {
   padding: 24px 32px;
   margin: 0 auto;
   box-shadow: 0 2px 8px #e0e0e0;
+}
+.colorful-title {
+  font-size: 4.2em;
+  font-weight: bold;
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: 0.04em;
+  background: linear-gradient(90deg, #ffea00 10%, #ff00c8 40%, #00eaff 70%, #ffea00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(2px 2px 0 #7f00ff)
+          drop-shadow(4px 4px 0 #ff3c00)
+          drop-shadow(0 0 8px #fff200);
+  text-shadow:
+    2px 2px 0 #7f00ff,
+    4px 4px 0 #ff3c00,
+    0 0 8px #fff200,
+    0 0 2px #fff;
+  margin-bottom: 32px;
+  margin-top: 12px;
+  padding: 0.2em 0 0.2em 0;
+  border-radius: 0.2em;
+  animation: colorful-pop 1.2s cubic-bezier(.68,-0.55,.27,1.55);
+  transform: skew(-8deg, 0deg);
+}
+@media (max-width: 600px) {
+  .colorful-title {
+    font-size: 2.1em;
+  }
+  body {
+    background-size: 40px 40px;
+  }
+}
+@keyframes colorful-pop {
+  0% { transform: scale(0.7) rotate(-8deg) skew(-8deg, 0deg); opacity: 0; }
+  60% { transform: scale(1.15) rotate(2deg) skew(-8deg, 0deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg) skew(-8deg, 0deg); }
 }
