@@ -117,9 +117,13 @@ function renderCards(songs) {
     td.style.width = '25%';
     td.style.verticalAlign = 'top';
     // 旧CSV対応
-    const link = song['リンク'] || song['YouTube'] || '';
+    let link = song['リンク'] || '';
+    // YouTubeリンクが "https://" で始まらない場合は補完
+    if (link && !/^https?:\/\//.test(link)) {
+      link = 'https://' + link;
+    }
     const work = song['作品名'] || '';
-    const genre = song['ジャンル'] || song['カテゴリ'] || '';
+    const genre = song['ジャンル'] || '';
     const thumbUrl = getYouTubeThumbnail(link);
     let thumbHtml = '';
     if (link && thumbUrl) {
