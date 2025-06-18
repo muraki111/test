@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>カラオケ曲リスト</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>カラオケ曲リスト</h1>
+    <div class="filter">
+      <label>アーティスト: <select id="artistFilter"></select></label>
+      <label>作品名: <select id="workFilter"></select></label>
+      <label>ジャンル: <select id="genreFilter"></select></label>
+    </div>
+    <table id="songsTable">
+      <thead>
+        <tr>
+          <th>タイトル</th>
+          <th>アーティスト</th>
+          <th>カテゴリ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 曲リストがここに入る -->
+      </tbody>
+    </table>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
