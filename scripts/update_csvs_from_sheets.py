@@ -4,6 +4,7 @@ import tempfile
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
+import json
 
 def main():
     if len(sys.argv) < 3:
@@ -14,7 +15,9 @@ def main():
     GSHEET_CREDENTIALS_JSON = sys.argv[2]
 
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as tmp:
-        tmp.write(GSHEET_CREDENTIALS_JSON)
+        # 文字列がJSONとして正しいか確認
+        json_obj = json.loads(GSHEET_CREDENTIALS_JSON)
+        tmp.write(json.dumps(json_obj))
         tmp_path = tmp.name
 
     try:
