@@ -26,7 +26,7 @@ jobs:
         run: pip install requests
 
       - name: Update CSVs from Google Sheets
-        run: python scripts/update_csvs_from_sheets.py "${{ secrets.SPREADSHEET_URL }}"
+        run: python scripts/update_csvs_from_sheets.py "${{ secrets.GSHEET_URL }}" "${{ secrets.GSHEET_CREDENTIALS_JSON }}"
         working-directory: .
 
       - name: Commit and push changes
