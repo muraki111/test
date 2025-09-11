@@ -22,8 +22,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install requests
-        run: pip install requests
+      - name: Pip install modules
+        run: pip install requests gspread google-auth pandas
 
       - name: Update CSVs from Google Sheets
         run: python scripts/update_csvs_from_sheets.py "${{ secrets.GSHEET_URL }}" "${{ secrets.GSHEET_CREDENTIALS_JSON }}"
