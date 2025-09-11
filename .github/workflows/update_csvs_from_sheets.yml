@@ -25,6 +25,7 @@ jobs:
 
       - name: Update CSVs from Google Sheets
         run: python scripts/update_csvs_from_sheets.py "${{ secrets.SPREADSHEET_URL }}"
+        working-directory: .
 
       - name: Commit and push changes
         run: |
