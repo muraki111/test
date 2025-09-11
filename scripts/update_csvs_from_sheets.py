@@ -1,5 +1,6 @@
 import os
 import sys
+import tempfile
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
@@ -12,21 +13,25 @@ def main():
     GSHEET_URL = sys.argv[1]
     GSHEET_CREDENTIALS_JSON = sys.argv[2]
 
-    scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-    creds = Credentials.from_service_account_file(GSHEET_CREDENTIALS_JSON, scopes=scopes)
-    gc = gspread.authorize(creds)
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.json') as tmp:
+        tmp.write(GSHEET_CREDENTIALS_JSON)
+        tmp_path = tmp.name
 
-    # スプレッドシートを開く
-    sh = gc.open_by_url(GSHEET_URL)
+    try:
+        scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly']
+        creds = Credentials.from_service_account_file(tmp_path, scopes=scopes)
+        gc = gspread.authorize(creds)
 
-    # 全シートを取得
-    for worksheet in sh.worksheets():
-        sheet_name = worksheet.title
-        data = worksheet.get_all_values()
-        df = pd.DataFrame(data)
+        sh = gc.open_by_url(GSHEET_URL)
 
-        csv_path = os.path.join(os.path.dirname(__file__), f'../{sheet_name}.csv')
-        df.to_csv(csv_path, index=False, header=False)
+        for worksheet in sh.worksheets():
+            sheet_name = worksheet.title
+            data = worksheet.get_all_values()
+            df = pd.DataFrame(data)
+            csv_path = os.path.join(os.path.dirname(__file__), f'../{sheet_name}.csv')
+            df.to_csv(csv_path, index=False, header=False)
+    finally:
+        os.remove(tmp_path)
 
 if __name__ == '__main__':
     main()
