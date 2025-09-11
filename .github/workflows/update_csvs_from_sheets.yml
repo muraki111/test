@@ -25,8 +25,12 @@ jobs:
       - name: Pip install modules
         run: pip install requests gspread google-auth pandas
 
+      - name: Decode service account json
+        run: |
+          echo "${{ secrets.GSHEET_CREDENTIALS_B64 }}" | base64 -d > service_account.json
+
       - name: Update CSVs from Google Sheets
-        run: python scripts/update_csvs_from_sheets.py "${{ secrets.GSHEET_URL }}" "${{ secrets.GSHEET_CREDENTIALS_JSON }}"
+        run: python scripts/update_csvs_from_sheets.py "${{ secrets.GSHEET_URL }}" "service_account.json"
         working-directory: .
 
       - name: Commit and push changes
