@@ -1,7 +1,9 @@
 name: Update CSVs from Google Sheets
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
 # on:
 #   schedule:
 #     - cron: '*/15 * * * *'

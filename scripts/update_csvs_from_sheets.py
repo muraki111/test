@@ -41,6 +41,9 @@ csv_names = [os.path.splitext(f)[0] for f in csv_files]
 # シート名一覧
 sheet_names = list(sheet_gids.keys())
 
+print("csv_files:", csv_files)
+print("csv_names:", csv_names)
+print("sheet_names:", sheet_names)
 # 既存csvと同名のシートがあれば上書き、なければスキップ
 for csv_name, csv_file in zip(csv_names, csv_files):
     if csv_name in sheet_gids:
@@ -48,8 +51,18 @@ for csv_name, csv_file in zip(csv_names, csv_files):
         csv_url = f'https://docs.google.com/spreadsheets/d/{spreadsheet_id}/export?format=csv&gid={gid}'
         r = requests.get(csv_url)
         r.raise_for_status()
-        with open(csv_file, 'w', encoding='utf-8') as f:
-            f.write(r.text)
+        new_content = r.text
+        try:
+            with open(csv_file, 'r', encoding='utf-8') as f:
+                old_content = f.read()
+        except FileNotFoundError:
+            old_content = None
+        if old_content != new_content:
+            print(f"Updating {csv_file} (content changed)")
+            with open(csv_file, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+        else:
+            print(f"Skipping {csv_file} (no change)")
 
 # シート名でcsvが存在しない場合は新規作成
 for sheet_name in sheet_names:
@@ -59,5 +72,6 @@ for sheet_name in sheet_names:
         csv_url = f'https://docs.google.com/spreadsheets/d/{spreadsheet_id}/export?format=csv&gid={gid}'
         r = requests.get(csv_url)
         r.raise_for_status()
+        print(f"Creating {csv_file}")
         with open(csv_file, 'w', encoding='utf-8') as f:
             f.write(r.text)
